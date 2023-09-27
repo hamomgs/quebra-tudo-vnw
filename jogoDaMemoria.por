@@ -9,7 +9,11 @@ programa {
   }
   cadeia palavrasEmbaralhadas[9]
 
-  funcao teladeinicio() {
+  funcao inicio() {
+	  telaDeInicio()  
+	}
+
+  funcao telaDeInicio() {
     cadeia txt
     logico resposta = falso, jogar = falso
     inteiro nivel 
@@ -22,13 +26,14 @@ programa {
       escolha(tx.caixa_baixa(txt)){
         caso "s":
           resposta = verdadeiro
+          jogar = falso
           pare
         caso "":
           resposta = verdadeiro
           jogar = verdadeiro
           pare
         caso contrario:
-          escreva("Opção invalida")
+          escreva("Opção inválida!")
           u.aguarde(1500)
           limpa()
       }
@@ -38,21 +43,22 @@ programa {
 
     se (jogar == falso){       
       escreva("Eu sabia que você iria desistir antes mesmo de começar. Volte quando estiver mais capacitado!")
+      retorne
     }
 
-    nivel = escolhanivel()
+    nivel = escolhaNivel()
     loading(nivel)
   }
   
-  funcao escolhanivel() {
+  funcao escolhaNivel() {
     inteiro nivel
     cadeia opcao
 
     faca {
     escreva(" _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n")
-    escreva("|   Escolha o nivel de dificuldade    |\n")
-    escreva("| 1 = Facil | 2 = Medio | 3 = Dificil |\n")
-    escreva("               Nivel: ")
+    escreva("|   Escolha o nível de dificuldade    |\n")
+    escreva("| 1 = Fácil | 2 = Médio | 3 = Dificil |\n")
+    escreva("               Nível: ")
     leia(opcao)
       
     escolha (opcao)
@@ -70,46 +76,13 @@ programa {
         opcao = "0"        
         pare
       caso contrario:
-        escreva("Opção Invalida")
-        u.aguarde(2500)
+        escreva("Opção Inválida")
+        u.aguarde(1500)
         limpa()		
       }
     } enquanto (opcao != "0")
     
     retorne nivel
-  }
-
-  funcao sorteioDeNumerosSemRepeticao(inteiro limit) {
-    inteiro numeros[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
-    inteiro sorteio[9], i = 0 
-
-    faca {
-      inteiro pos = 0
-      inteiro num = numeros[u.sorteia(0, limit)]
-
-      enquanto((pos < 8) e (sorteio[pos] != num)) {
-        pos++    
-      }
-
-      se(sorteio[pos] != num) {
-        sorteio[i] = num   
-        i++   
-      }
-    } enquanto (i < 9)
-
-    retorne sorteio
-  }
-
-  funcao embaralhePalavras(cadeia palavras[]) {
-    inteiro sorteiaPosicoesPalavras[9] 
-    
-    sorteiaPosicoesPalavras = sorteioDeNumerosSemRepeticao(15)
-
-    para (inteiro i = 0; i < 9; i++) {      
-      palavrasEmbaralhadas[i] = palavras[sorteiaPosicoesPalavras[i]]       
-    }
-
-    retorne palavrasEmbaralhadas
   }
 
   funcao loading(inteiro nivel) {
@@ -127,13 +100,25 @@ programa {
     limpa()
     jogo(nivel)  
   }
+
+  funcao embaralhePalavras(cadeia palavras[]) {
+    inteiro sorteiaPosicoesPalavras[9] 
     
+    sorteiaPosicoesPalavras = sorteioDeNumerosSemRepeticao(15)
+
+    para (inteiro i = 0; i < 9; i++) {      
+      palavrasEmbaralhadas[i] = palavras[sorteiaPosicoesPalavras[i]]       
+    }
+
+    retorne palavrasEmbaralhadas
+  }
+
   funcao memorize(cadeia palavras[]) {
     escrevePalavra(0, 1, 2, palavras[0], palavras[1], palavras[2])
     escrevePalavra(3, 4, 5, palavras[3], palavras[4], palavras[5])
     escrevePalavra(6, 7, 8, palavras[6], palavras[7], palavras[8])
   }
-    
+
   funcao jogo(inteiro nivel) {
     cadeia tabuleiroVazio[9] = {"*****", "*****", "*****", "*****", "*****", "*****", "*****", "*****", "*****"}
     inteiro erros, tentativas, acertos, tempo = 0, x = 0, posicao[9], contaErros = 0, contaTentativas = 0
@@ -159,7 +144,8 @@ programa {
         tempo = 9
         pare
       caso contrario:
-        escreva("Opcão inválida!")
+        escreva("Opção inválida!")
+        u.aguarde(1500)
     } 
 
     memorizePalavras(tempo)
@@ -167,8 +153,8 @@ programa {
     posicao = sorteioDeNumerosSemRepeticao(8)
 
     faca {
-      escreva("Erros disponiveis: ", erros)
-      escreva(" | Tentativas disponiveis: ", tentativas)
+      escreva("Erros disponíveis: ", erros)
+      escreva(" | Tentativas disponíveis: ", tentativas)
       escreva(" | Acertos: ", acertos)
 
       memorize(tabuleiroVazio)
@@ -189,7 +175,6 @@ programa {
         tentativas--
         contaErros++
         contaTentativas++
-        escreva(x, " - ", posicao[x])
       }
 
       se(acertos == 9){          
@@ -199,6 +184,27 @@ programa {
 
     resultado(erros, contaTentativas, acertos, contaErros)
   }
+
+  funcao sorteioDeNumerosSemRepeticao(inteiro limit) {
+    inteiro numeros[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+    inteiro sorteio[9], i = 0 
+
+    faca {
+      inteiro pos = 0
+      inteiro num = numeros[u.sorteia(0, limit)]
+
+      enquanto((pos < 8) e (sorteio[pos] != num)) {
+        pos++    
+      }
+
+      se(sorteio[pos] != num) {
+        sorteio[i] = num   
+        i++   
+      }
+    } enquanto (i < 9)
+
+    retorne sorteio
+  }
     
   funcao resultado(inteiro erros, inteiro tentativas, inteiro acertos, inteiro contaErros) {
     se(erros == 0){
@@ -207,19 +213,22 @@ programa {
       u.aguarde(5000)
       limpa()
       inicio()
-    } senao {
-      escreva("Parabêns! Você ganhou!!\n")
-      escreva("Número de acertos: ", acertos, " - Número de erros: ", contaErros, " - Número de Tentativas: ", tentativas, "\n")
-      u.aguarde(5000)
-      limpa()
-      inicio()
-    }
+      retorne
+    } 
+
+    escreva("Parabéns! Você ganhou!!\n")
+    escreva("Número de acertos: ", acertos, " - Número de erros: ", contaErros, " - Número de Tentativas: ", tentativas, "\n")
+    u.aguarde(5000)
+    limpa()
+    inicio()
   }
 
   funcao escrevePalavra(inteiro nCarta1, inteiro nCarta2, inteiro nCarta3, cadeia carta1, cadeia carta2, cadeia carta3) {
     escreva("\n        " + nCarta1 + "                 " + nCarta2 + "                 " + nCarta3 + "\n")
     escreva(tx.preencher_a_esquerda('=', 58, "=") + "\n")
-    escreva("|     " + tx.preencher_a_esquerda(' ', 10, carta1) + "   |     " + tx.preencher_a_esquerda(' ', 10, carta2) + "   |     " + tx.preencher_a_esquerda(' ', 10, carta3) + "   |\n")
+    escreva("|     " + tx.preencher_a_esquerda(' ', 10, carta1))
+    escreva("   |     " + tx.preencher_a_esquerda(' ', 10, carta2) + "   |     ")
+    escreva(tx.preencher_a_esquerda(' ', 10, carta3) + "   |\n")
     escreva(tx.preencher_a_esquerda('=', 58, "="))
   } 
 
@@ -234,8 +243,4 @@ programa {
 
     limpa()
   }
-
-  funcao inicio() {
-	  teladeinicio()  
-	}
 }
