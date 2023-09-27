@@ -1,4 +1,4 @@
-![](https://github.com/hamomgs/quebra-tudo-vnw/assets/88857655/5594d228-dbea-4e55-bc66-cd2a84b64ffd)
+![Banner desafio](https://i.postimg.cc/Gtj52PGZ/banner-vnw-desafio2.png)
 
 Desafio da escola [Vai na Web](https://www.linkedin.com/company/vainaweb/): Os alunos foram divididos em grupos para criar programas em Portugol. Os códigos foram posteriormente "quebrados", e o desafio consistiu em praticar a revisão de código, aplicando os conhecimentos adquiridos em sala de aula.
 
